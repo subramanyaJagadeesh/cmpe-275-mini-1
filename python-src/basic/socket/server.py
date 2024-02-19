@@ -92,5 +92,8 @@ class SessionHandler(threading.Thread):
 
 
 if __name__ == '__main__':
-    svr = BasicServer("127.0.0.1", 2000)
+    ##svr = BasicServer("127.0.0.1", 2000)
+    ##svr.run()
+
+    svr = BasicServer('', 2000)
     svr.run()
