@@ -1,0 +1,44 @@
+[
+{
+  "directory": "/Users/subramanyajagadeesh/Downloads/socket-3code/cpp-src/basic/b/src",
+  "command": "/usr/local/Cellar/llvm/17.0.6_1/bin/clang++  -I/Users/subramanyajagadeesh/Downloads/socket-3code/cpp-src/basic/b -I/Users/subramanyajagadeesh/Downloads/socket-3code/cpp-src/basic/src -I/usr/local/include -I/Users/subramanyajagadeesh/Downloads/socket-3code/cpp-src/basic -Wall -fpermissive -O2 -std=gnu++20 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -mmacosx-version-min=14.0 -o CMakeFiles/basic_socket.dir/payload/basicbuilder.cpp.o -c /Users/subramanyajagadeesh/Downloads/socket-3code/cpp-src/basic/src/payload/basicbuilder.cpp",
+  "file": "/Users/subramanyajagadeesh/Downloads/socket-3code/cpp-src/basic/src/payload/basicbuilder.cpp",
+  "output": "src/CMakeFiles/basic_socket.dir/payload/basicbuilder.cpp.o"
+},
+{
+  "directory": "/Users/subramanyajagadeesh/Downloads/socket-3code/cpp-src/basic/b/src",
+  "command": "/usr/local/Cellar/llvm/17.0.6_1/bin/clang++  -I/Users/subramanyajagadeesh/Downloads/socket-3code/cpp-src/basic/b -I/Users/subramanyajagadeesh/Downloads/socket-3code/cpp-src/basic/src -I/usr/local/include -I/Users/subramanyajagadeesh/Downloads/socket-3code/cpp-src/basic -Wall -fpermissive -O2 -std=gnu++20 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -mmacosx-version-min=14.0 -o CMakeFiles/basic_socket.dir/socket/sessionhandler.cpp.o -c /Users/subramanyajagadeesh/Downloads/socket-3code/cpp-src/basic/src/socket/sessionhandler.cpp",
+  "file": "/Users/subramanyajagadeesh/Downloads/socket-3code/cpp-src/basic/src/socket/sessionhandler.cpp",
+  "output": "src/CMakeFiles/basic_socket.dir/socket/sessionhandler.cpp.o"
+},
+{
+  "directory": "/Users/subramanyajagadeesh/Downloads/socket-3code/cpp-src/basic/b/src",
+  "command": "/usr/local/Cellar/llvm/17.0.6_1/bin/clang++  -I/Users/subramanyajagadeesh/Downloads/socket-3code/cpp-src/basic/b -I/Users/subramanyajagadeesh/Downloads/socket-3code/cpp-src/basic/src -I/usr/local/include -I/Users/subramanyajagadeesh/Downloads/socket-3code/cpp-src/basic -Wall -fpermissive -O2 -std=gnu++20 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -mmacosx-version-min=14.0 -o CMakeFiles/basic_socket.dir/socket/client.cpp.o -c /Users/subramanyajagadeesh/Downloads/socket-3code/cpp-src/basic/src/socket/client.cpp",
+  "file": "/Users/subramanyajagadeesh/Downloads/socket-3code/cpp-src/basic/src/socket/client.cpp",
+  "output": "src/CMakeFiles/basic_socket.dir/socket/client.cpp.o"
+},
+{
+  "directory": "/Users/subramanyajagadeesh/Downloads/socket-3code/cpp-src/basic/b/src",
+  "command": "/usr/local/Cellar/llvm/17.0.6_1/bin/clang++  -I/Users/subramanyajagadeesh/Downloads/socket-3code/cpp-src/basic/b -I/Users/subramanyajagadeesh/Downloads/socket-3code/cpp-src/basic/src -I/usr/local/include -I/Users/subramanyajagadeesh/Downloads/socket-3code/cpp-src/basic -Wall -fpermissive -O2 -std=gnu++20 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -mmacosx-version-min=14.0 -o CMakeFiles/basic_socket.dir/socket/server.cpp.o -c /Users/subramanyajagadeesh/Downloads/socket-3code/cpp-src/basic/src/socket/server.cpp",
+  "file": "/Users/subramanyajagadeesh/Downloads/socket-3code/cpp-src/basic/src/socket/server.cpp",
+  "output": "src/CMakeFiles/basic_socket.dir/socket/server.cpp.o"
+},
+{
+  "directory": "/Users/subramanyajagadeesh/Downloads/socket-3code/cpp-src/basic/b/src",
+  "command": "/usr/local/Cellar/llvm/17.0.6_1/bin/clang++  -I/Users/subramanyajagadeesh/Downloads/socket-3code/cpp-src/basic/b -I/Users/subramanyajagadeesh/Downloads/socket-3code/cpp-src/basic/src -I/usr/local/include -I/Users/subramanyajagadeesh/Downloads/socket-3code/cpp-src/basic -Wall -fpermissive -O2 -std=gnu++20 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -mmacosx-version-min=14.0 -o CMakeFiles/serverApp.dir/apps/ServerApp.cpp.o -c /Users/subramanyajagadeesh/Downloads/socket-3code/cpp-src/basic/src/apps/ServerApp.cpp",
+  "file": "/Users/subramanyajagadeesh/Downloads/socket-3code/cpp-src/basic/src/apps/ServerApp.cpp",
+  "output": "src/CMakeFiles/serverApp.dir/apps/ServerApp.cpp.o"
+},
+{
+  "directory": "/Users/subramanyajagadeesh/Downloads/socket-3code/cpp-src/basic/b/src",
+  "command": "/usr/local/Cellar/llvm/17.0.6_1/bin/clang++  -I/Users/subramanyajagadeesh/Downloads/socket-3code/cpp-src/basic/b -I/Users/subramanyajagadeesh/Downloads/socket-3code/cpp-src/basic/src -I/usr/local/include -I/Users/subramanyajagadeesh/Downloads/socket-3code/cpp-src/basic -Wall -fpermissive -O2 -std=gnu++20 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -mmacosx-version-min=14.0 -o CMakeFiles/clientApp.dir/apps/clientApp.cpp.o -c /Users/subramanyajagadeesh/Downloads/socket-3code/cpp-src/basic/src/apps/clientApp.cpp",
+  "file": "/Users/subramanyajagadeesh/Downloads/socket-3code/cpp-src/basic/src/apps/clientApp.cpp",
+  "output": "src/CMakeFiles/clientApp.dir/apps/clientApp.cpp.o"
+},
+{
+  "directory": "/Users/subramanyajagadeesh/Downloads/socket-3code/cpp-src/basic/b/test",
+  "command": "/usr/local/Cellar/llvm/17.0.6_1/bin/clang++  -I/Users/subramanyajagadeesh/Downloads/socket-3code/cpp-src/basic/b -I/Users/subramanyajagadeesh/Downloads/socket-3code/cpp-src/basic/src -I/usr/local/include -I/Users/subramanyajagadeesh/Downloads/socket-3code/cpp-src/basic -I/Users/subramanyajagadeesh/Downloads/socket-3code/cpp-src/basic/test/../src -Wall -fpermissive -O2 -std=gnu++20 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -mmacosx-version-min=14.0 -o CMakeFiles/demoapp.dir/demoapp.cpp.o -c /Users/subramanyajagadeesh/Downloads/socket-3code/cpp-src/basic/test/demoapp.cpp",
+  "file": "/Users/subramanyajagadeesh/Downloads/socket-3code/cpp-src/basic/test/demoapp.cpp",
+  "output": "test/CMakeFiles/demoapp.dir/demoapp.cpp.o"
+}
+]
