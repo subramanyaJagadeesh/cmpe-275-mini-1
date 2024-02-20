@@ -7,8 +7,11 @@
  *      Author: gash
  */
 int main(int argc, char **argv) {
-    basic::BasicServer javaSvr("192.168.1.100", 8080);
+    basic::BasicServer javaSvr("127.0.0.1", 3000);
     javaSvr.start();
+
+    basic::BasicServer pythonSvr("127.0.0.1", 4000);
+    pythonSvr.start();
 
     basic::BasicServer cppSvr;
     cppSvr.start();
