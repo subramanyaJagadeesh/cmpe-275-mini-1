@@ -18,7 +18,27 @@ public class ClientApp {
 	public ClientApp() {
 	}
 
-	public void sendToJava(){
+	public static void sendToJava(){
+		var javaClient = new BasicClient("app", "127.0.0.1", 3000);
+		javaClient.connect();
+		javaClient.join("pets/dogs");
+
+		var br = new BufferedReader(new InputStreamReader(System.in));
+		while (true) {
+			try {
+				System.out.print("\nenter message ('exit' to quit): ");
+				var m = br.readLine();
+				if (m.length() == 0 || "exit".equalsIgnoreCase(m))
+					break;
+
+				javaClient.sendMessage(m);
+			} catch (Exception ex) {
+				break;
+			}
+		}
+	}
+
+	public static void sendToCPP(){
 		var javaClient = new BasicClient("app", "127.0.0.1", 2000);
 		javaClient.connect();
 		javaClient.join("pets/dogs");
@@ -38,7 +58,7 @@ public class ClientApp {
 		}
 	}
 
-	public void sendToPython(){
+	public static void sendToPython(){
 		var javaClient = new BasicClient("app", "127.0.0.1", 4000);
 		javaClient.connect();
 		javaClient.join("pets/dogs");
@@ -59,10 +79,10 @@ public class ClientApp {
 	}
 
 	public static void main(String[] args) {
+		sendToJava();
+		sendToPython();
 		//this.sendToJava();
-		ClientApp clientApp = new ClientApp();
-		clientApp.sendToPython();
-
-		
+		//ClientApp clientApp = new ClientApp();
+		//clientApp.sendToPython();
 	}
 }

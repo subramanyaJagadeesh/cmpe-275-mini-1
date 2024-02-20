@@ -12,21 +12,33 @@ class ServerApp {
 	public ServerApp() {
 	}
 
-	public void javaServer(String[] args) {
-		var host = "192.168.1.201";
+	public static void javaServer(String[] args) {
+		var host = "127.0.0.1";
+		var port = 3000;
+		var server = new BasicServer(host,port);
+		server.start();
+	}
+
+	public static void cppServer(String[] args) {
+		var host = "127.0.0.1";
 		var port = 2000;
 		var server = new BasicServer(host,port);
 		server.start();
 	}
 
 	public static void pythonServer(String[] args) {
-		var host = "127.0.0.1";//test connection
+		var host = "127.0.0.1";
 		var port = 4000;
 		var server = new BasicServer(host,port);
 		server.start();
 	}
 
 	public static void main(String[] args) {
-		ServerApp.pythonServer(args);
+
+		javaServer();
+		pythonServer();
+		cppServer();
+  //ServerApp.pythonServer(args);
+
 	}
 }
