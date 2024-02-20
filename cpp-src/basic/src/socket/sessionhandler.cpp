@@ -185,6 +185,10 @@
          // past the embedded null to the next substring until the end of raw.
          results.push_back(ptr);
          ptr += results.back().length() + 1;
+
+         //@Author: Armaghan
+         // Add a check to ensure ptr does not go beyond raw + len
+         if (ptr >= raw + len) break;
       }
 #else
       // sometimes raw may contain null (\0) chars embedded between messages 

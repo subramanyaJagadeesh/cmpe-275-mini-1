@@ -1,11 +1,14 @@
 import socket
 import threading
+import socket
 import os
 import sys
-script_dir = os.path.dirname(__file__)
-mymodule_dir = os.path.join(script_dir, "..", 'payload')
-sys.path.append(mymodule_dir) 
-import builder
+script_dir = os.path.dirname( __file__ )
+mymodule_dir = os.path.join( script_dir, '..', 'payload' )
+
+sys.path.append( mymodule_dir )
+
+#from basic.payload import builder
 
 class BasicServer(object):
    def __init__(self, ipaddr, port=2000):

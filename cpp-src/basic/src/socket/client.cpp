@@ -1,6 +1,8 @@
 
 #include <thread>
 #include <arpa/inet.h>
+#include <netinet/in.h>
+#include <cstring>
 #include <sys/socket.h>
 #include <unistd.h>
 #include <sstream>

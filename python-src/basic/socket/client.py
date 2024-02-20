@@ -1,10 +1,13 @@
 import socket
 import os
 import sys
-script_dir = os.path.dirname(__file__)
-mymodule_dir = os.path.join(script_dir, "..", 'payload')
-sys.path.append(mymodule_dir) 
+script_dir = os.path.dirname( __file__ )
+mymodule_dir = os.path.join( script_dir, '..', 'payload' )
+
+sys.path.append( mymodule_dir )
 import builder
+
+#from basic.payload import builder
 
 class BasicClient(object):
     def __init__(self, name, ipaddr="127.0.0.1", port=2000):

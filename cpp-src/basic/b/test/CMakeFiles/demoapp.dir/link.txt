@@ -1,1 +1,1 @@
-/usr/local/Cellar/llvm/17.0.6_1/bin/clang++ -Wall -fpermissive -O2 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -mmacosx-version-min=14.0 -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/demoapp.dir/demoapp.cpp.o -o ../bin/demoapp  -lpthread 
+/usr/bin/clang++-17 -Wall -fpermissive -O2 CMakeFiles/demoapp.dir/demoapp.cpp.o -o ../bin/demoapp  -lpthread 
