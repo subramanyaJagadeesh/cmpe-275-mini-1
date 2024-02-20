@@ -8,7 +8,7 @@ sys.path.append(mymodule_dir)
 import builder
 
 class BasicServer(object):
-   def __init__(self, ipaddr, port=2000):
+   def __init__(self, ipaddr ='', port=4000):
       self.ipaddr = ipaddr
       self.port = port
       self._svr = None
@@ -46,6 +46,18 @@ class BasicServer(object):
         print(f"Connection from {caddr[0]}")
         csession = SessionHandler(cltconn,caddr)
         csession.start()
+    #ips set to '' otherwise program does not run on windows machines
+   def javaServer(self):
+        server = BasicServer('', 2000)
+        server.run()
+
+   def pythonServer(self):
+        server = BasicServer('', 4000)
+        server.run()
+
+   def cppServer(self):
+        server = BasicServer('', 6000)
+        server.run()
 
 # ----------------------------------------------
 
@@ -90,10 +102,17 @@ class SessionHandler(threading.Thread):
 
         print(f"clossing session {self._cltaddr}")
 
+    
 
 if __name__ == '__main__':
-    ##svr = BasicServer("127.0.0.1", 2000)
-    ##svr.run()
+    ##Java Server
+    #javaServer = BasicServer()
+    #javaServer.run()
 
-    svr = BasicServer('', 2000)
-    svr.run()
+    ##Python server
+    pythonServer = BasicServer()
+    pythonServer.run()
+
+    ##Cpp Server
+    #cppServer = BasicServer()
+    #cppServer.run()
