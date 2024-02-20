@@ -48,7 +48,7 @@ class BasicServer(object):
         csession.start()
     #ips set to '' otherwise program does not run on windows machines
    def javaServer(self):
-        server = BasicServer('', 2000)
+        server = BasicServer('', 3000)
         server.run()
 
    def pythonServer(self):
@@ -56,7 +56,7 @@ class BasicServer(object):
         server.run()
 
    def cppServer(self):
-        server = BasicServer('', 6000)
+        server = BasicServer('', 2000)
         server.run()
 
 # ----------------------------------------------

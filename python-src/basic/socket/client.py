@@ -60,7 +60,7 @@ class BasicClient(object):
         pass
 
     def sendToJava(self):
-        pythonClient = BasicClient("python","127.0.0.1",2000)
+        pythonClient = BasicClient("python","127.0.0.1",3000)
         while True:
             m = input("enter message: ")
             if m == '' or m == 'exit':
@@ -80,7 +80,7 @@ class BasicClient(object):
                 pythonClient.sendMsg(m)
 
     def sendToCpp(self):
-        pythonClient = BasicClient("python","127.0.0.1",6000)
+        pythonClient = BasicClient("python","127.0.0.1",2000)
         while True:
             m = input("enter message: ")
             if m == '' or m == 'exit':
