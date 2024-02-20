@@ -59,7 +59,10 @@ public class ClientApp {
 	}
 
 	public static void main(String[] args) {
-		this.sendToJava();
+		//this.sendToJava();
+		ClientApp clientApp = new ClientApp();
+		clientApp.sendToPython();
 
+		
 	}
 }

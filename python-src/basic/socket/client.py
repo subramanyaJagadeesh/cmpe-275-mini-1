@@ -7,7 +7,7 @@ sys.path.append(mymodule_dir)
 import builder
 
 class BasicClient(object):
-    def __init__(self, name, ipaddr="127.0.0.1", port=2000):
+    def __init__(self, name="frida_kahlo", ipaddr="127.0.0.1", port=4000):
         self._clt = None
         self.name = name
         self.ipaddr = ipaddr
@@ -59,13 +59,47 @@ class BasicClient(object):
         # get the latest messages from a group
         pass
 
+    def sendToJava(self):
+        pythonClient = BasicClient("python","127.0.0.1",2000)
+        while True:
+            m = input("enter message: ")
+            if m == '' or m == 'exit':
+                break
+            else:
+                pythonClient.sendMsg(m)
+                pythonClient.sendMsg(m)
+
+    def sendToPython(self):
+        pythonClient = BasicClient("python","127.0.0.1",4000)
+        while True:
+            m = input("enter message: ")
+            if m == '' or m == 'exit':
+                break
+            else:
+                pythonClient.sendMsg(m)
+                pythonClient.sendMsg(m)
+
+    def sendToCpp(self):
+        pythonClient = BasicClient("python","127.0.0.1",6000)
+        while True:
+            m = input("enter message: ")
+            if m == '' or m == 'exit':
+                break
+            else:
+                pythonClient.sendMsg(m)
+                pythonClient.sendMsg(m)
+
 
 if __name__ == '__main__':
-    clt = BasicClient("frida_kahlo","127.0.0.1",2000)
-    while True:
-        m = input("enter message: ")
-        if m == '' or m == 'exit':
-            break
-        else:
-            clt.sendMsg(m)
-            clt.sendMsg(m)
+    #Uncomment to test connections
+    #Server for port 2000
+    #javaClient = BasicClient()
+    #javaClient.sendToJava()
+    
+    #Server for port 4000
+    pythonClient = BasicClient()
+    pythonClient.sendToPython()
+    
+    #Server for port 6000
+    #cppClient = BasicClient()
+    #cppClient.sendToCpp()
