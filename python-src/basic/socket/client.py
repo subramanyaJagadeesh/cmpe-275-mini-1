@@ -102,4 +102,4 @@ if __name__ == '__main__':
     
     #Server for port 6000
     #cppClient = BasicClient()
-    #cppClient.sendToJava()
+    #cppClient.sendToCpp()
