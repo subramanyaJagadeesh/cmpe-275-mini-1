@@ -46,18 +46,6 @@ class BasicServer(object):
         print(f"Connection from {caddr[0]}")
         csession = SessionHandler(cltconn,caddr)
         csession.start()
-    #ips set to '' otherwise program does not run on windows machines
-   def javaServer(self):
-        server = BasicServer('', 3000)
-        server.run()
-
-   def pythonServer(self):
-        server = BasicServer('', 4000)
-        server.run()
-
-   def cppServer(self):
-        server = BasicServer('', 2000)
-        server.run()
 
 # ----------------------------------------------
 
@@ -103,17 +91,33 @@ class SessionHandler(threading.Thread):
         print(f"clossing session {self._cltaddr}")
 
     
+    #ips set to '' otherwise program does not run on windows machines
+def javaServer():
+    server = BasicServer('', 3000)
+    server.run()
+
+def pythonServer():
+    server = BasicServer('', 4000)
+    server.run()
+
+def cppServer():
+    server = BasicServer('', 2000)
+    server.run()
 
 if __name__ == '__main__':
+    #javaServer()
+    pythonServer()
+    cppServer()
+    
     ##Java Server
     #javaServer = BasicServer()
     #javaServer.run()
 
     ##Cpp Server
-    cppServer = BasicServer()
-    cppServer.run()
+    ##cppServer = BasicServer()
+    ##cppServer.run()
     
     ##Python server
-    pythonServer = BasicServer()
-    pythonServer.run()
+    ##pythonServer = BasicServer()
+    ##pythonServer.run()
 
