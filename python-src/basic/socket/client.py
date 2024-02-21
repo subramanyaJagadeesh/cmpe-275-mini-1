@@ -53,12 +53,15 @@ class BasicClient(object):
         #start timer
         start_time = time.time_ns()
         print("Message sent to server")
-        
+        #send message to server
         self._clt.send(bytes(m, "utf-8"))
+        #get response from server and ouput to client
+        from_server = self._clt.recv(2048)
+        print(from_server)
         #end timer and print result
         end_time = time.time_ns()
         elapsed_time = end_time - start_time
-        print("Received ACK from server: in",elapsed_time)
+        print("Elapsed time:",elapsed_time)
 
     def groups(self):
         # return list of groups
