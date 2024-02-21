@@ -6,6 +6,7 @@ script_dir = os.path.dirname(__file__)
 mymodule_dir = os.path.join(script_dir, "..", 'payload')
 sys.path.append(mymodule_dir) 
 import builder
+import time
 
 class BasicServer(object):
    def __init__(self, ipaddr ='', port=4000):
@@ -68,9 +69,10 @@ class SessionHandler(threading.Thread):
             self._cltconn = None
             self.good = False
 
-    def process(self,raw):
+    def process(self,raw, session):
         try:
             bldr = builder.BasicBuilder()
+            bldr.send(session, "ACK", 3, 0)
             name,group,text = bldr.decode(raw)
             print(f"from {name}, to group: {group}, text: {text}")
         except Exception as e:
@@ -83,7 +85,7 @@ class SessionHandler(threading.Thread):
                 if len(buf) <= 0:
                     self.good = False
                 else:
-                    self.process(buf.decode("utf-8"))
+                    self.process(buf.decode("utf-8"), self._cltaddr)
             except Exception as e:
                 print(e)
                 self.good = False
@@ -107,7 +109,7 @@ def cppServer():
 if __name__ == '__main__':
     #javaServer()
     pythonServer()
-    cppServer()
+    ##cppServer()
     
     ##Java Server
     #javaServer = BasicServer()
