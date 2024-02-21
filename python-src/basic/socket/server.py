@@ -6,6 +6,7 @@ script_dir = os.path.dirname(__file__)
 mymodule_dir = os.path.join(script_dir, "..", 'payload')
 sys.path.append(mymodule_dir) 
 import builder
+import time
 
 class BasicServer(object):
    def __init__(self, ipaddr ='', port=4000):
@@ -50,11 +51,15 @@ class BasicServer(object):
 # ----------------------------------------------
 
 class SessionHandler(threading.Thread):
+    #Set session id counter to zero
+    counter =0
     def __init__(self,client_connection, client_addr):
         threading.Thread.__init__(self)
         self.daemon = False
         self._cltconn = client_connection
         self._cltaddr = client_addr
+        self.session_id = SessionHandler.counter
+        SessionHandler.counter += 1
         self.good = True
 
     def __del__(self):
@@ -72,7 +77,7 @@ class SessionHandler(threading.Thread):
         try:
             bldr = builder.BasicBuilder()
             name,group,text = bldr.decode(raw)
-            print(f"from {name}, to group: {group}, text: {text}")
+            print(f"Session Id: {self.session_id},from {name}, to group: {group}, text: {text}")
         except Exception as e:
             pass
 
@@ -84,11 +89,12 @@ class SessionHandler(threading.Thread):
                     self.good = False
                 else:
                     self.process(buf.decode("utf-8"))
+                    self._cltconn.send(b"Message recieved")
             except Exception as e:
                 print(e)
                 self.good = False
 
-        print(f"clossing session {self._cltaddr}")
+        print(f"clossing session {self.session_id}:, from client: {self._cltaddr}")
 
     
     #ips set to '' otherwise program does not run on windows machines
@@ -107,7 +113,7 @@ def cppServer():
 if __name__ == '__main__':
     #javaServer()
     pythonServer()
-    cppServer()
+    ##cppServer()
     
     ##Java Server
     #javaServer = BasicServer()

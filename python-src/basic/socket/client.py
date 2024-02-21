@@ -5,6 +5,7 @@ script_dir = os.path.dirname(__file__)
 mymodule_dir = os.path.join(script_dir, "..", 'payload')
 sys.path.append(mymodule_dir) 
 import builder
+import time
 
 class BasicClient(object):
     def __init__(self, name="frida_kahlo", ipaddr="127.0.0.1", port=4000):
@@ -49,7 +50,18 @@ class BasicClient(object):
         print(f"sending to group {self.group} from {self.name}: {text}")
         bldr = builder.BasicBuilder()
         m = bldr.encode(self.name,self.group,text)
+        #start timer
+        start_time = time.time_ns()
+        print("Message sent to server")
+        #send message to server
         self._clt.send(bytes(m, "utf-8"))
+        #get response from server and ouput to client
+        from_server = self._clt.recv(2048)
+        print(from_server)
+        #end timer and print result
+        end_time = time.time_ns()
+        elapsed_time = end_time - start_time
+        print("Elapsed time:",elapsed_time)
 
     def groups(self):
         # return list of groups
@@ -71,21 +83,22 @@ def sendToPython(m):
     pythonClient = BasicClient("python","127.0.0.1",4000)
     pythonClient.sendMsg(m)
     
+    
 if __name__ == '__main__':
     #Uncomment to test connections
-    message= "hello from python client"
-    try:
-    	sendToJava(message)
-    except:
-    	print("error: Could not connect to java server")
-    try:
-        sendToCpp(message)
-    except:
-    	print("error: Could not connect to cpp server")
-    try:
-        sendToPython(message)
-    except:
-    	print("error: COuld not connect to python server")
+    message= "awr;obnawoivnaev aef;yfubvueaybvk ue ukyaeuy whaeherbherbsetrbserbsererabeabaerwberbebr "
+try:
+    sendToJava(message)
+except:
+    print("error: Could not connect to java server")
+try:
+    sendToCpp(message)
+except:
+    print("error: Could not connect to cpp server")
+try:
+    sendToPython(message)
+except:
+    print("error: Could not connect to python server")
     	
     
     #Server for port 3000
