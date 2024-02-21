@@ -47,14 +47,14 @@ int main(int argc, char **argv) {
     }
     */
     // Connect and send a message to the Python server
-    /*try {
+    try {
         basic::BasicClient cltJava("anonymous", "127.0.0.1", 4000);
         cltJava.connect();
         cltJava.sendMessage(msg.str());
         std::cout << "Message sent to Python server." << std::endl;
     } catch (const std::exception& e) {
         std::cerr << "Failed to send message to Java server: " << e.what() << std::endl;
-    }*/
+    }
     // Wait a bit before exiting
     std::cout << "Sleeping a bit before exiting..." << std::endl;
     std::this_thread::sleep_for(std::chrono::milliseconds(2000));

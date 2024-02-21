@@ -38,8 +38,8 @@ class ServerApp {
 		//javaServer();
 		//pythonServer();
 		//cppServer();
-		//ServerApp.javaServer(args);
-		ServerApp.cppServer(args);
+		ServerApp.javaServer(args);
+		//ServerApp.cppServer(args);
   		//ServerApp.pythonServer(args);
   		
 

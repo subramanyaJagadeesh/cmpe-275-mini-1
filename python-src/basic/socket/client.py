@@ -59,47 +59,45 @@ class BasicClient(object):
         # get the latest messages from a group
         pass
 
-    def sendToJava(self):
-        pythonClient = BasicClient("python","127.0.0.1",3000)
-        while True:
-            m = input("enter message: ")
-            if m == '' or m == 'exit':
-                break
-            else:
-                pythonClient.sendMsg(m)
-                pythonClient.sendMsg(m)
+def sendToJava(m):
+    pythonClient = BasicClient("python","127.0.0.1",3000)
+    pythonClient.sendMsg(m)
 
-    def sendToPython(self):
-        pythonClient = BasicClient("python","127.0.0.1",4000)
-        while True:
-            m = input("enter message: ")
-            if m == '' or m == 'exit':
-                break
-            else:
-                pythonClient.sendMsg(m)
-                pythonClient.sendMsg(m)
+def sendToCpp(m):
+    pythonClient = BasicClient("python","127.0.0.1",2000)
+    pythonClient.sendMsg(m)
 
-    def sendToCpp(self):
-        pythonClient = BasicClient("python","127.0.0.1",2000)
-        while True:
-            m = input("enter message: ")
-            if m == '' or m == 'exit':
-                break
-            else:
-                pythonClient.sendMsg(m)
-                pythonClient.sendMsg(m)
-
-
+def sendToPython(m):
+    pythonClient = BasicClient("python","127.0.0.1",4000)
+    pythonClient.sendMsg(m)
+    
 if __name__ == '__main__':
     #Uncomment to test connections
+    message= "hello from python client"
+    try:
+    	sendToJava(message)
+    except:
+    	print("error: Could not connect to java server")
+    try:
+        sendToCpp(message)
+    except:
+    	print("error: Could not connect to cpp server")
+    try:
+        sendToPython(message)
+    except:
+    	print("error: COuld not connect to python server")
+    	
+    
     #Server for port 3000
     #javaClient = BasicClient()
     #javaClient.sendToJava()
     
+    #Server for port 2000
+    #cppClient = BasicClient()
+    #cppClient.sendToCpp(message)
+    
     #Server for port 4000
     #pythonClient = BasicClient()
-    #pythonClient.sendToPython()
+    #pythonClient.sendToPython(message)
     
-    #Server for port 2000
-    cppClient = BasicClient()
-    cppClient.sendToCpp()
+ 

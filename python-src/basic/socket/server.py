@@ -109,10 +109,11 @@ if __name__ == '__main__':
     #javaServer = BasicServer()
     #javaServer.run()
 
-    ##Python server
-    #pythonServer = BasicServer()
-    #pythonServer.run()
-
     ##Cpp Server
     cppServer = BasicServer()
     cppServer.run()
+    
+    ##Python server
+    pythonServer = BasicServer()
+    pythonServer.run()
+
