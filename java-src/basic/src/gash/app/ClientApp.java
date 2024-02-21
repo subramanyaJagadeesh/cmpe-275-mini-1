@@ -22,68 +22,26 @@ public class ClientApp {
 		var javaClient = new BasicClient("app", "127.0.0.1", 3000);
 		javaClient.connect();
 		javaClient.join("pets/dogs");
-
-		var br = new BufferedReader(new InputStreamReader(System.in));
-		while (true) {
-			try {
-				System.out.print("\nenter message ('exit' to quit): ");
-				var m = br.readLine();
-				if (m.length() == 0 || "exit".equalsIgnoreCase(m))
-					break;
-
-				javaClient.sendMessage(m);
-			} catch (Exception ex) {
-				break;
-			}
-		}
+		javaClient.sendMessage("My name is inigo montoya");
 	}
 
 	public static void sendToCPP(){
-		var javaClient = new BasicClient("app", "127.0.0.1", 2000);
-		javaClient.connect();
-		javaClient.join("pets/dogs");
-
-		var br = new BufferedReader(new InputStreamReader(System.in));
-		while (true) {
-			try {
-				System.out.print("\nenter message ('exit' to quit): ");
-				var m = br.readLine();
-				if (m.length() == 0 || "exit".equalsIgnoreCase(m))
-					break;
-
-				javaClient.sendMessage(m);
-			} catch (Exception ex) {
-				break;
-			}
-		}
+		var cppClient = new BasicClient("app", "127.0.0.1", 2000);
+		cppClient.connect();
+		cppClient.join("pets/dogs");
+		cppClient.sendMessage("My name is inigo montoya");
 	}
 
 	public static void sendToPython(){
-		var javaClient = new BasicClient("app", "127.0.0.1", 4000);
-		javaClient.connect();
-		javaClient.join("pets/dogs");
-
-		var br = new BufferedReader(new InputStreamReader(System.in));
-		while (true) {
-			try {
-				System.out.print("\nenter message ('exit' to quit): ");
-				var m = br.readLine();
-				if (m.length() == 0 || "exit".equalsIgnoreCase(m))
-					break;
-
-				javaClient.sendMessage(m);
-			} catch (Exception ex) {
-				break;
-			}
-		}
+		var pythonClient = new BasicClient("app", "127.0.0.1", 4000);
+		pythonClient.connect();
+		pythonClient.join("pets/dogs");
+		pythonClient.sendMessage("My name is inigo montoya");
 	}
 
 	public static void main(String[] args) {
-		//sendToJava();
-		//sendToPython();
+		sendToJava();
+		sendToPython();
 		sendToCPP();
-		//this.sendToJava();
-		//ClientApp clientApp = new ClientApp();
-		//clientApp.sendToPython();
 	}
 }
