@@ -1,7 +1,9 @@
 package gash.socket;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.InterruptedIOException;
+import java.io.PrintWriter;
 import java.net.Socket;
 
 import gash.payload.BasicBuilder;
@@ -50,6 +52,7 @@ class SessionHandler extends Thread {
 		try {
 			connection.setSoTimeout(2000);
 			var in = new BufferedInputStream(connection.getInputStream());
+			BufferedOutputStream out = new BufferedOutputStream(connection.getOutputStream());
 
 			if (in == null)
 				throw new RuntimeException("Unable to get input streams");
@@ -66,7 +69,9 @@ class SessionHandler extends Thread {
 
 					Message msg = builder.decode(new String(raw, 0, len).getBytes());
 					System.out.println(msg);
-					
+
+					out.write(new byte[] {'A','C','K'});
+					out.flush();
 				} catch (InterruptedIOException ioe) {
 				}
 			}

@@ -2,6 +2,7 @@ package gash.app;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.Random;
 
 import gash.socket.BasicClient;
 
@@ -16,6 +17,19 @@ public class ClientApp {
 	private BasicClient myClient;
 
 	public ClientApp() {
+	}
+
+	public static String gen(){
+		String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+		StringBuilder sb = new StringBuilder();
+		Random random = new Random();
+        
+		for (int i = 0; i < 10000000; i++) {
+				int index = random.nextInt(characters.length());
+				char randomChar = characters.charAt(index);
+				sb.append(randomChar);
+		}
+		return sb.toString();
 	}
 
 	public static void sendToJava(){

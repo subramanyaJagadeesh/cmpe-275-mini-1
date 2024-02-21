@@ -79,27 +79,33 @@ public class BasicClient {
 
 	public void sendMessage(String message) {
 	    if (this.clt == null) {
-		System.out.println("no connection, text not sent");
-		return;
+				System.out.println("no connection, text not sent");
+				return;
 	    }
 
 	    try {
-		BasicBuilder builder = new BasicBuilder();
-		Message msg = new Message(name, group, message);
-		String encodedMsg = builder.encode(msg);
-		byte[] msgBytes = encodedMsg.getBytes("UTF-8");
-		String lengthPrefix = String.format("%04d", msgBytes.length);
-		byte[] lengthPrefixBytes = lengthPrefix.getBytes("UTF-8");
-		byte[] finalMsg = new byte[lengthPrefixBytes.length + msgBytes.length];
-		System.arraycopy(lengthPrefixBytes, 0, finalMsg, 0, lengthPrefixBytes.length);
-		System.arraycopy(msgBytes, 0, finalMsg, lengthPrefixBytes.length, msgBytes.length);
-		this.clt.getOutputStream().write(finalMsg);
-		long sentTime = System.nanoTime();
-		System.out.println("Sent message to server at"+ sentTime);
-		BufferedReader reader = new BufferedReader(new InputStreamReader(this.clt.getInputStream()));
-		String ackFromServer = reader.readLine();
-		System.out.println("Received ACK from server: " + ackFromServer + ": in"+ (System.nanoTime() - sentTime));
-	    } catch (Exception e) {
+				BasicBuilder builder = new BasicBuilder();
+				Message msg = new Message(name, group, message);
+				String encodedMsg = builder.encode(msg);
+				byte[] msgBytes = encodedMsg.getBytes("UTF-8");
+				String lengthPrefix = String.format("%04d", msgBytes.length);
+				byte[] lengthPrefixBytes = lengthPrefix.getBytes("UTF-8");
+				byte[] finalMsg = new byte[lengthPrefixBytes.length + msgBytes.length];
+				System.arraycopy(lengthPrefixBytes, 0, finalMsg, 0, lengthPrefixBytes.length);
+				System.arraycopy(msgBytes, 0, finalMsg, lengthPrefixBytes.length, msgBytes.length);
+				this.clt.getOutputStream().write(finalMsg);
+				long sentTime = System.nanoTime();
+				System.out.println("Sent message to server at"+ sentTime);
+				// BufferedReader reader = new BufferedReader(new InputStreamReader(this.clt.getInputStream()));
+				// while(this.clt != null){
+					int i = this.clt.getInputStream().read();
+					// if(i <=0){
+					// 	continue;
+					// } 
+					System.out.println("Received ACK from server: in"+ (System.nanoTime() - sentTime));
+				// 	break;
+				// }
+			} catch (Exception e) {
 		e.printStackTrace();
 	    }
 	}
