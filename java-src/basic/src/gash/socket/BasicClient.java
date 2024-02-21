@@ -1,6 +1,8 @@
 package gash.socket;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.Socket;
 
 import gash.payload.BasicBuilder;
@@ -92,6 +94,11 @@ public class BasicClient {
 		System.arraycopy(lengthPrefixBytes, 0, finalMsg, 0, lengthPrefixBytes.length);
 		System.arraycopy(msgBytes, 0, finalMsg, lengthPrefixBytes.length, msgBytes.length);
 		this.clt.getOutputStream().write(finalMsg);
+		long sentTime = System.nanoTime();
+		System.out.println("Sent message to server at"+ sentTime);
+		BufferedReader reader = new BufferedReader(new InputStreamReader(this.clt.getInputStream()));
+		String ackFromServer = reader.readLine();
+		System.out.println("Received ACK from server: " + ackFromServer + ": in"+ (System.nanoTime() - sentTime));
 	    } catch (Exception e) {
 		e.printStackTrace();
 	    }

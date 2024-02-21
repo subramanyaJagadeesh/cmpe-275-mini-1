@@ -30,8 +30,10 @@ int main(int argc, char **argv) {
     try {
         basic::BasicClient cltCpp("anonymous", "127.0.0.1", 2000);
         cltCpp.connect();
+        auto now = std::chrono::high_resolution_clock::now();
         cltCpp.sendMessage(msg.str());
         std::cout << "Message sent to C++ server." << std::endl;
+        cltCpp.readACK(now);
     } catch (const std::exception& e) {
         std::cerr << "Failed to send message to C++ server: " << e.what() << std::endl;
     }
@@ -40,8 +42,10 @@ int main(int argc, char **argv) {
     try {
         basic::BasicClient cltJava("anonymous", "127.0.0.1", 3000);
         cltJava.connect();
+        auto now = std::chrono::high_resolution_clock::now();
         cltJava.sendMessage(msg.str());
         std::cout << "Message sent to Java server." << std::endl;
+        cltJava.readACK(now);
     } catch (const std::exception& e) {
         std::cerr << "Failed to send message to Java server: " << e.what() << std::endl;
     }
@@ -50,8 +54,10 @@ int main(int argc, char **argv) {
     try {
         basic::BasicClient cltPython("anonymous", "127.0.0.1", 4000);
         cltPython.connect();
+        auto now = std::chrono::high_resolution_clock::now();
         cltPython.sendMessage(msg.str());
         std::cout << "Message sent to Python server." << std::endl;
+        cltPython.readACK(now);
     } catch (const std::exception& e) {
         std::cerr << "Failed to send message to Java server: " << e.what() << std::endl;
     }

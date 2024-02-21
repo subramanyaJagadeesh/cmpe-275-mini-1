@@ -107,7 +107,7 @@
             idle = false;
             auto results = splitter(session,raw,n);
             session.incr(results.size());
-            process(results);
+            process(results, session.fd);
             results.clear();
          } else if (n == -1) {
             if (errno == EWOULDBLOCK) {} /*read timeout - okay*/
@@ -135,13 +135,13 @@
    /**
     * 
    */
-   void basic::SessionHandler::process(const std::vector<std::string>& results) {
+   void basic::SessionHandler::process(const std::vector<std::string>& results, int session) {
       basic::BasicBuilder b;
       for (auto s : results) {
          auto m = b.decode(s);
-      
+         auto m = send(session,"ACK",strlen("ACK"), 0);
          // PLACEHOLDER: now do something with the message
-         std::cerr << "M: [" << m.group() << "] " << m.name() << " - " 
+         std::cout << "M: [" << m.group() << "] " << m.name() << " - " 
                   << m.text() << std::endl;
          std::cerr.flush();
       }

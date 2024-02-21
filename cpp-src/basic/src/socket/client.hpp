@@ -31,6 +31,7 @@ class BasicClient {
 
       void stop();
       void sendMessage(std::string m) noexcept(false);
+      void readACK(std::__1::chrono::steady_clock::time_point time);
       void join(std::string group);
 
       void connect() noexcept(false);

@@ -35,6 +35,21 @@ void basic::BasicClient::join(std::string group){
    this->group = group;
 }
 
+void basic::BasicClient::readACK(std::__1::chrono::steady_clock::time_point sentTime){
+   if (!this->good) return;
+   while(this->good){
+      char buffer[80] = {0};
+      auto m = ::read(this->clt, buffer, 80);
+      if(m == -1){
+         continue;
+      } else if(errno == ETIMEDOUT){
+         continue;
+      } else{
+         std::cerr << "Ack recieved in " << (std::chrono::high_resolution_clock::now() - sentTime).count();
+      }  
+   }
+}
+
 void basic::BasicClient::sendMessage(std::string m) {
    if (!this->good) return;
 

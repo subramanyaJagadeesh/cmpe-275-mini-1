@@ -48,7 +48,7 @@ class SessionHandler {
         void start();
         void stop();
         void addSession(int sessionSock);
-        virtual void process(const std::vector<std::string>& results);
+        virtual void process(const std::vector<std::string>& results, int session);
         
         // if we use a handler per connection like the other lab examples in
         // python and java, we will create a problem with the resizing. Reason: 
