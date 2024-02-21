@@ -24,7 +24,7 @@ public class ClientApp {
 		StringBuilder sb = new StringBuilder();
 		Random random = new Random();
         
-		for (int i = 0; i < 10000000; i++) {
+		for (int i = 0; i < 1000000; i++) {
 				int index = random.nextInt(characters.length());
 				char randomChar = characters.charAt(index);
 				sb.append(randomChar);
@@ -36,7 +36,7 @@ public class ClientApp {
 		var javaClient = new BasicClient("app", "127.0.0.1", 3000);
 		javaClient.connect();
 		javaClient.join("pets/dogs");
-		javaClient.sendMessage("My name is inigo montoya");
+		javaClient.sendMessage(gen());
 	}
 
 	public static void sendToCPP(){

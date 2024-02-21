@@ -97,14 +97,14 @@ public class BasicClient {
 				long sentTime = System.nanoTime();
 				System.out.println("Sent message to server at"+ sentTime);
 				// BufferedReader reader = new BufferedReader(new InputStreamReader(this.clt.getInputStream()));
-				// while(this.clt != null){
+				while(this.clt != null){
 					int i = this.clt.getInputStream().read();
-					// if(i <=0){
-					// 	continue;
-					// } 
+					if(i <=0 ){
+						continue;
+					} 
 					System.out.println("Received ACK from server: in"+ (System.nanoTime() - sentTime));
-				// 	break;
-				// }
+					break;
+				}
 			} catch (Exception e) {
 		e.printStackTrace();
 	    }
