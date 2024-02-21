@@ -37,7 +37,7 @@ int main(int argc, char **argv) {
     }
     
     // Connect and send a message to the Java server
-    /*try {
+    try {
         basic::BasicClient cltJava("anonymous", "127.0.0.1", 3000);
         cltJava.connect();
         cltJava.sendMessage(msg.str());
@@ -45,12 +45,12 @@ int main(int argc, char **argv) {
     } catch (const std::exception& e) {
         std::cerr << "Failed to send message to Java server: " << e.what() << std::endl;
     }
-    */
+    
     // Connect and send a message to the Python server
     try {
-        basic::BasicClient cltJava("anonymous", "127.0.0.1", 4000);
-        cltJava.connect();
-        cltJava.sendMessage(msg.str());
+        basic::BasicClient cltPython("anonymous", "127.0.0.1", 4000);
+        cltPython.connect();
+        cltPython.sendMessage(msg.str());
         std::cout << "Message sent to Python server." << std::endl;
     } catch (const std::exception& e) {
         std::cerr << "Failed to send message to Java server: " << e.what() << std::endl;
