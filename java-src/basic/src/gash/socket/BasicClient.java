@@ -30,7 +30,13 @@ public class BasicClient {
 				this.clt.close();
 			} catch (IOException e) {
 				// TODO better error handling? yes!
-				e.printStackTrace();
+
+				//@Author: Armaghan
+
+				System.err.println("Error closing the socket: " + e.getMessage());
+				// Optionally log this error to a logging framework or error monitoring service
+			} finally {
+				this.clt = null;
 			}
 		}
 		this.clt = null;
@@ -53,7 +59,7 @@ public class BasicClient {
 		}
 	}
 
-	public void sendMessage(String message) {
+	/*public void sendMessage(String message) {
 		if (this.clt == null) {
 			System.out.println("no connection, text not sent");
 			return;
@@ -66,5 +72,28 @@ public class BasicClient {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}*/
+	// Modification to run for Server.cpp:
+
+	public void sendMessage(String message) {
+	    if (this.clt == null) {
+		System.out.println("no connection, text not sent");
+		return;
+	    }
+
+	    try {
+		BasicBuilder builder = new BasicBuilder();
+		Message msg = new Message(name, group, message);
+		String encodedMsg = builder.encode(msg);
+		byte[] msgBytes = encodedMsg.getBytes("UTF-8");
+		String lengthPrefix = String.format("%04d", msgBytes.length);
+		byte[] lengthPrefixBytes = lengthPrefix.getBytes("UTF-8");
+		byte[] finalMsg = new byte[lengthPrefixBytes.length + msgBytes.length];
+		System.arraycopy(lengthPrefixBytes, 0, finalMsg, 0, lengthPrefixBytes.length);
+		System.arraycopy(msgBytes, 0, finalMsg, lengthPrefixBytes.length, msgBytes.length);
+		this.clt.getOutputStream().write(finalMsg);
+	    } catch (Exception e) {
+		e.printStackTrace();
+	    }
 	}
 }

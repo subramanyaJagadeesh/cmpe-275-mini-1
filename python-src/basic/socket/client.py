@@ -92,14 +92,14 @@ class BasicClient(object):
 
 if __name__ == '__main__':
     #Uncomment to test connections
-    #Server for port 2000
+    #Server for port 3000
     #javaClient = BasicClient()
     #javaClient.sendToJava()
     
     #Server for port 4000
-    pythonClient = BasicClient()
-    pythonClient.sendToPython()
+    #pythonClient = BasicClient()
+    #pythonClient.sendToPython()
     
-    #Server for port 6000
-    #cppClient = BasicClient()
-    #cppClient.sendToCpp()
+    #Server for port 2000
+    cppClient = BasicClient()
+    cppClient.sendToCpp()

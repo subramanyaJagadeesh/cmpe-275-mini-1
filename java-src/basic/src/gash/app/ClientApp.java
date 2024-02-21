@@ -80,8 +80,8 @@ public class ClientApp {
 
 	public static void main(String[] args) {
 		//sendToJava();
-		sendToPython();
-		//sendToCPP();
+		//sendToPython();
+		sendToCPP();
 		//this.sendToJava();
 		//ClientApp clientApp = new ClientApp();
 		//clientApp.sendToPython();
