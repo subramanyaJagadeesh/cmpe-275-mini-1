@@ -18,7 +18,7 @@ set(BUILD_LIBRARIES basic_socket ${Boost_LIBRARIES} ${SOCKET_LIBRARY} pthread)
 
 # app targets
 add_executable(serverApp apps/ServerApp.cpp)
-add_executable(clientApp apps/clientApp.cpp)
+add_executable(clientApp apps/ClientApp.cpp)
 target_link_libraries(serverApp ${BUILD_LIBRARIES})
 target_link_libraries(clientApp ${BUILD_LIBRARIES})
 

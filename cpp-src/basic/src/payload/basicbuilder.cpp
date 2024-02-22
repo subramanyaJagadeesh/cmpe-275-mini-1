@@ -26,7 +26,6 @@ std::vector<std::string> basic::BasicBuilder::split(const std::string& s) {
    return rtn;
 }
 
-
 std::string basic::BasicBuilder::encode(const basic::Message& m) {
 
    // payload
@@ -50,29 +49,3 @@ basic::Message basic::BasicBuilder::decode(std::string raw) {
    return m;
 }
 
-
-//@Author:Armaghan
-//Modification to be compatible with Java encode/decode
-
-/*std::string basic::BasicBuilder:: encode(const basic::Message& m) {
-        // Directly concatenate the message parts with commas, without length prefix
-        std::string r = m.group() + "," + m.name() + "," + m.text();
-        return r;
-    }
-
-basic::Message basic::BasicBuilder::decode(std::string raw) {
-        std::istringstream iss(raw);
-        std::vector<std::string> parts;
-        std::string part;
-
-        while (std::getline(iss, part, ',')) {
-            parts.push_back(part);
-        }
-
-        if (parts.size() != 3) {
-            throw std::runtime_error("Invalid message format");
-        }
-
-        // Construct a Message object from the parts
-        return Message(parts[1], parts[0], parts[2]);
-    }*/

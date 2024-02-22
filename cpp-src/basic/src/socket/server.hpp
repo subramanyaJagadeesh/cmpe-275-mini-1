@@ -21,7 +21,7 @@ class BasicServer {
 
    public: 
 
-      BasicServer() : ipaddr("127.0.0.1"), portN(3000), good(true), svr(-1) {}
+      BasicServer() : ipaddr("127.0.0.1"), portN(2000), good(true), svr(-1) {}
       BasicServer(std::string ipaddr, unsigned int port);
 
       virtual ~BasicServer() {stop();}

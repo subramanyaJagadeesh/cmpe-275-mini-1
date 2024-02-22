@@ -31,6 +31,8 @@ class BasicClient {
 
       void stop();
       void sendMessage(std::string m) noexcept(false);
+      double readACK(std::chrono::steady_clock::time_point sentTime);
+      void measureThroughput(int numMessages);
       void join(std::string group);
 
       void connect() noexcept(false);

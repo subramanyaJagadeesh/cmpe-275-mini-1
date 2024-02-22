@@ -107,7 +107,7 @@
             idle = false;
             auto results = splitter(session,raw,n);
             session.incr(results.size());
-            process(results);
+            process(results, session.fd);
             results.clear();
          } else if (n == -1) {
             if (errno == EWOULDBLOCK) {} /*read timeout - okay*/
@@ -135,14 +135,23 @@
    /**
     * 
    */
-   void basic::SessionHandler::process(const std::vector<std::string>& results) {
+   void basic::SessionHandler::process(const std::vector<std::string>& results, int session) {
       basic::BasicBuilder b;
       for (auto s : results) {
-         auto m = b.decode(s);
-      
+         auto start = std::chrono::steady_clock::now(); // Start timing
+         auto decodedMsg = b.decode(s);
+
+         // Send ACK after processing
+        const char* ackMsg = "ACK";
+        send(session, ackMsg, strlen(ackMsg), 0);
+
+        auto end = std::chrono::steady_clock::now(); // End timing
+        std::chrono::duration<double, std::milli> elapsed = end - start;
+        std::cout << "Processing time for a message: " << elapsed.count() << " ms" << std::endl;
+         auto m1 = send(session,"ACK",strlen("ACK"), 0);
          // PLACEHOLDER: now do something with the message
-         std::cerr << "M: [" << m.group() << "] " << m.name() << " - " 
-                  << m.text() << std::endl;
+         std::cout << "M: [" << decodedMsg.group() << "] " << decodedMsg.name() << " - " 
+                  << decodedMsg.text() << std::endl;
          std::cerr.flush();
       }
    }
@@ -185,10 +194,6 @@
          // past the embedded null to the next substring until the end of raw.
          results.push_back(ptr);
          ptr += results.back().length() + 1;
-
-         //@Author: Armaghan
-         // Add a check to ensure ptr does not go beyond raw + len
-         if (ptr >= raw + len) break;
       }
 #else
       // sometimes raw may contain null (\0) chars embedded between messages 
