@@ -30,10 +30,17 @@ int main(int argc, char **argv) {
     try {
         basic::BasicClient cltCpp("anonymous", "127.0.0.1", 2000);
         cltCpp.connect();
-        auto now = std::chrono::high_resolution_clock::now();
+        auto sendTime = std::chrono::steady_clock::now();
+
         cltCpp.sendMessage(msg.str());
         std::cout << "Message sent to C++ server." << std::endl;
-        cltCpp.readACK(now);
+        double rtt = cltCpp.readACK(sendTime);
+        std::cout << "RTT: " << rtt << " ms" << std::endl;
+        cltCpp.measureThroughput(100); // Example: measure throughput over 100 messages
+        
+
+
+
     } catch (const std::exception& e) {
         std::cerr << "Failed to send message to C++ server: " << e.what() << std::endl;
     }

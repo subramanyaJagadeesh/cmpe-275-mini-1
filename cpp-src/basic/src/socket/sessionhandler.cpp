@@ -138,11 +138,20 @@
    void basic::SessionHandler::process(const std::vector<std::string>& results, int session) {
       basic::BasicBuilder b;
       for (auto s : results) {
-         auto m = b.decode(s);
-         auto m = send(session,"ACK",strlen("ACK"), 0);
+         auto start = std::chrono::steady_clock::now(); // Start timing
+         auto decodedMsg = b.decode(s);
+
+         // Send ACK after processing
+        const char* ackMsg = "ACK";
+        send(session, ackMsg, strlen(ackMsg), 0);
+
+        auto end = std::chrono::steady_clock::now(); // End timing
+        std::chrono::duration<double, std::milli> elapsed = end - start;
+        std::cout << "Processing time for a message: " << elapsed.count() << " ms" << std::endl;
+         auto m1 = send(session,"ACK",strlen("ACK"), 0);
          // PLACEHOLDER: now do something with the message
-         std::cout << "M: [" << m.group() << "] " << m.name() << " - " 
-                  << m.text() << std::endl;
+         std::cout << "M: [" << decodedMsg.group() << "] " << decodedMsg.name() << " - " 
+                  << decodedMsg.text() << std::endl;
          std::cerr.flush();
       }
    }
