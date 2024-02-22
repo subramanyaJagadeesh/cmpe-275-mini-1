@@ -56,7 +56,14 @@ public class BasicClient {
 
 		try {
 			this.clt = new Socket(this.ipaddr, this.port);
-			System.out.println("Connected to " + clt.getInetAddress().getHostAddress());
+			String host = "CPP";
+			if(this.port == 3000){
+				host = "Java";
+			}
+			if(this.port == 4000){
+				host = "Python";
+			}
+			System.out.println("Connected to " +host+" Server");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -78,45 +85,44 @@ public class BasicClient {
 	}*/
 	// Modification to run for Server.cpp:
 
-	public void sendMessage(String message) {
+	public void sendMessage(String message, int size) {
 	    if (this.clt == null) {
 				System.out.println("no connection, text not sent");
 				return;
 	    }
-
 	    try {
 				BasicBuilder builder = new BasicBuilder();
 				Message msg = new Message(name, group, message);
 				String encodedMsg = builder.encode(msg);
 				byte[] msgBytes = encodedMsg.getBytes("UTF-8");
 				int start = 0;
-				int end = 10000;
+				int end = size;
 				int len = msgBytes.length;
-				while(end < len){
+				while(end <= len && size!=message.length()){
 					this.clt.getOutputStream().write(Arrays.copyOfRange(msgBytes, start, end));
 					long sentTime = System.nanoTime();
-					System.out.println("Sent message to server at"+ sentTime);
+					System.out.println("Sent message to server at "+ sentTime);
 					while(this.clt != null){
 						int i = this.clt.getInputStream().read();
 						if(i <=0 ){
 							continue;
-						} 
-						System.out.println("Received ACK from server: in"+ (System.nanoTime() - sentTime));
+						}
+						System.out.println("Received ACK from server: in "+ ((System.nanoTime() - sentTime)/1_000_000.0) + "ms");
 						break;
 					}
-					end+=10000;
-					start+=10000;
+					end+=size;
+					start+=size;
 				}
 				if(start < len){
 					this.clt.getOutputStream().write(Arrays.copyOfRange(msgBytes, start, len));
 					long sentTime = System.nanoTime();
-					System.out.println("Sent message to server at"+ sentTime);
+					System.out.println("Sent message to server at "+ sentTime);
 					while(this.clt != null){
 						int i = this.clt.getInputStream().read();
 						if(i <=0 ){
 							continue;
 						} 
-						System.out.println("Received ACK from server: in"+ (System.nanoTime() - sentTime));
+						System.out.println("Received ACK from server: in "+ ((System.nanoTime() - sentTime)/1_000_000.0) + "ms");
 						break;
 					}
 				}

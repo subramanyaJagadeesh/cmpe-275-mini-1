@@ -27,6 +27,10 @@ public class BasicBuilder {
 			return new Message(s);
 		}
 
+		if(s.split(",").length == 2){
+			return new Message(s.split(",")[0], s.split(",")[1]);
+		}
+
 		var parts = s.split(",", 3);
 		var rtn = new Message(parts[1], parts[0], parts[2]);
 

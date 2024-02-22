@@ -3,8 +3,8 @@ package gash.socket;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.InterruptedIOException;
-import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.SocketException;
 
 import gash.payload.BasicBuilder;
 import gash.payload.Message;
@@ -72,8 +72,13 @@ class SessionHandler extends Thread {
 
 					out.write(new byte[] {'A','C','K'});
 					out.flush();
-				} catch (InterruptedIOException ioe) {
-					ioe.printStackTrace();
+				} catch (InterruptedIOException | SocketException e) {
+					if(e.getMessage() == "Connection reset"){
+						System.out.println("Connection to client lost | finished");
+						break;
+					} else{
+						e.printStackTrace();
+					}
 				}
 			}
 		} catch (Exception e) {

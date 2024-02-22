@@ -1,1 +1,0 @@
-/usr/local/Cellar/llvm/17.0.6_1/bin/clang++ -Wall -fpermissive -O2 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -mmacosx-version-min=14.0 -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/clientApp.dir/apps/clientApp.cpp.o -o ../bin/clientApp  ../lib/libbasic_socket.a -lpthread 

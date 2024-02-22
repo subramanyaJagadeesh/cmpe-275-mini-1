@@ -13,6 +13,11 @@ public class Message {
 		this.text = text;
 	}
 
+	public Message(String group, String text){
+		this.group = group;
+		this.text = text;
+	}
+
 	@Override
 	public String toString() {
 		var sb = new StringBuilder();
