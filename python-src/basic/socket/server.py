@@ -52,14 +52,15 @@ class BasicServer(object):
 
 class SessionHandler(threading.Thread):
     #Set session id counter to zero
-    counter =0
+    counter =0#created using chatgptg
+    
     def __init__(self,client_connection, client_addr):
         threading.Thread.__init__(self)
         self.daemon = False
         self._cltconn = client_connection
         self._cltaddr = client_addr
-        self.session_id = SessionHandler.counter
-        SessionHandler.counter += 1
+        self.session_id = SessionHandler.counter #created using chatgptg
+        SessionHandler.counter += 1 #created using chatgptg
         self.good = True
 
     def __del__(self):
@@ -115,7 +116,7 @@ def cppServer():
     server.run()
 
 if __name__ == '__main__':
-    #javaServer()
+    ##javaServer()
     pythonServer()
     ##cppServer()
     
