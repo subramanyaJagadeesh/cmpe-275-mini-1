@@ -84,12 +84,16 @@ class SessionHandler(threading.Thread):
     def run(self):
         while self.good:
             try:
-                buf = self._cltconn.recv(2048)
+                ##set time out to give enough time for server to get the message from the client
+                self._cltconn.settimeout(2000)
+
+                buf = self._cltconn.recv(100000)
                 if len(buf) <= 0:
                     self.good = False
                 else:
+                    self._cltconn.send(b"ACK")
                     self.process(buf.decode("utf-8"))
-                    self._cltconn.send(b"Message recieved")
+                    
             except Exception as e:
                 print(e)
                 self.good = False

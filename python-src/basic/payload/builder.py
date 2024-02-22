@@ -14,7 +14,9 @@ class BasicBuilder(object):
         if (len(parts)==4):
             #number,group, name, app
             #number is not accounted in return statement
+            print(len(parts[3]))
             return parts[2],parts[1],parts[3]
+
         elif (len(parts)==3):
             #case for java client that does not have number as part of message
             #group, name, app
