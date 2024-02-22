@@ -7,6 +7,8 @@ sys.path.append(mymodule_dir)
 import builder
 import time
 import json
+json_file_path = os.path.join(os.path.dirname(__file__), 'sampledata.json')
+
 class BasicClient(object):
     def __init__(self, name="frida_kahlo", ipaddr="127.0.0.1", port=4000):
         self._clt = None
@@ -49,11 +51,14 @@ class BasicClient(object):
 
         if len(text) == 0:
             print("Message is empty")
+
+        #diveide message into chunks to server
         elif len(text) >= 10000:
             chunk_start_index = 0
             chunk_end_index = 10000
-            print("text: ",len(text))
-            while(chunk_end_index < len(text)):
+            elapsed_times_list = []
+            #print("text1234: ",len(text))
+            while(chunk_end_index <= len(text)):
                 print(f"sending to group {self.group} from {self.name}")
                 bldr = builder.BasicBuilder()
                 m = bldr.encode(self.name,self.group,text[chunk_start_index:chunk_end_index])
@@ -69,6 +74,7 @@ class BasicClient(object):
                 end_time = time.time_ns()
                 elapsed_time = end_time - start_time
                 print("Elapsed time:",elapsed_time)
+                elapsed_times_list.append(elapsed_time)
                 chunk_end_index += 10000
                 chunk_start_index += 10000
             if chunk_start_index < len(text):
@@ -87,8 +93,13 @@ class BasicClient(object):
                 end_time = time.time_ns()
                 elapsed_time = end_time - start_time
                 print("Elapsed time:",elapsed_time)
+                elapsed_times_list.append(elapsed_time)
+                return elapsed_times_list
+            else:
+                return elapsed_times_list
         else:
-            
+            elapsed_times_list = []
+            print("text: ",len(text))
             print(f"sending to group {self.group} from {self.name}")
             bldr = builder.BasicBuilder()
             m = bldr.encode(self.name,self.group,text)
@@ -98,12 +109,14 @@ class BasicClient(object):
             #send message to server
             self._clt.send(bytes(m, "utf-8"))
             #get response from server and ouput to client
-            from_server = self._clt.recv(2048)
+            from_server = self._clt.recv(3)
             print(from_server)
             #end timer and print result
             end_time = time.time_ns()
             elapsed_time = end_time - start_time
             print("Elapsed time:",elapsed_time)
+            elapsed_times_list.append(elapsed_time)
+            return elapsed_times_list
 
     def groups(self):
         # return list of groups
@@ -114,27 +127,35 @@ class BasicClient(object):
         pass
 
 def sendToJava(m):
+    total =0
     pythonClient = BasicClient("python","127.0.0.1",3000)
-    pythonClient.sendMsg(m)
+    my_list = pythonClient.sendMsg(m)
+    total = sum(my_list)
+    return total
 
 def sendToCpp(m):
+    total =0
     pythonClient = BasicClient("python","127.0.0.1",2000)
-    pythonClient.sendMsg(m)
+    my_list = pythonClient.sendMsg(m)
+    total = sum(my_list)
+    return total
 
 def sendToPython(m):
+    total =0
     pythonClient = BasicClient("python","127.0.0.1",4000)
-    pythonClient.sendMsg(m)
-    
+    my_list = pythonClient.sendMsg(m)
+    total = sum(my_list)
+    return total
     
 if __name__ == '__main__':
-    with open('sampledata.json') as json_file:
+    with open(json_file_path, 'r') as json_file:
         data = json.load(json_file)
     
-    m1 = data['message1']
-    m2 = data['message2']
-    m3 = data['message3']
-    m4 = data['message4']
-    m5 = data['message5']
+    m1 = data['message1']#100
+    m2 = data['message2']#500
+    m3 = data['message3']#10 000
+    m4 = data['message4']#100 000
+    m5 = data['message5']#1 000 000
    
     print("message1 length: ", len(m1))
     print("message2 length: ", len(m2))
@@ -150,11 +171,17 @@ if __name__ == '__main__':
 #    sendToCpp(message)
 #except:
 #    print("error: Could not connect to cpp server")
+i =0
+test_counter = 5
+total_time =[]
 try:
-    sendToPython(m3)
+    for i in range(test_counter):
+        total_time.append(sendToPython(m1))
+    print(total_time)
+    print("Average time in ns", (sum(total_time)/len(total_time)))
+    print("Average bytes/ns", (sum(total_time)/(len(m1)*test_counter)))
 except:
     print("error: Could not connect to python server")
-
     
     #Server for port 3000
     #javaClient = BasicClient()
