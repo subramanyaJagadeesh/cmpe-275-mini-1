@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.util.Arrays;
 
 import gash.payload.BasicBuilder;
 import gash.payload.Message;
@@ -88,23 +89,39 @@ public class BasicClient {
 				Message msg = new Message(name, group, message);
 				String encodedMsg = builder.encode(msg);
 				byte[] msgBytes = encodedMsg.getBytes("UTF-8");
-				String lengthPrefix = String.format("%04d", msgBytes.length);
-				byte[] lengthPrefixBytes = lengthPrefix.getBytes("UTF-8");
-				byte[] finalMsg = new byte[lengthPrefixBytes.length + msgBytes.length];
-				System.arraycopy(lengthPrefixBytes, 0, finalMsg, 0, lengthPrefixBytes.length);
-				System.arraycopy(msgBytes, 0, finalMsg, lengthPrefixBytes.length, msgBytes.length);
-				this.clt.getOutputStream().write(finalMsg);
-				long sentTime = System.nanoTime();
-				System.out.println("Sent message to server at"+ sentTime);
-				// BufferedReader reader = new BufferedReader(new InputStreamReader(this.clt.getInputStream()));
-				while(this.clt != null){
-					int i = this.clt.getInputStream().read();
-					if(i <=0 ){
-						continue;
-					} 
-					System.out.println("Received ACK from server: in"+ (System.nanoTime() - sentTime));
-					break;
+				int start = 0;
+				int end = 10000;
+				int len = msgBytes.length;
+				while(end < len){
+					this.clt.getOutputStream().write(Arrays.copyOfRange(msgBytes, start, end));
+					long sentTime = System.nanoTime();
+					System.out.println("Sent message to server at"+ sentTime);
+					while(this.clt != null){
+						int i = this.clt.getInputStream().read();
+						if(i <=0 ){
+							continue;
+						} 
+						System.out.println("Received ACK from server: in"+ (System.nanoTime() - sentTime));
+						break;
+					}
+					end+=10000;
+					start+=10000;
 				}
+				if(start < len){
+					this.clt.getOutputStream().write(Arrays.copyOfRange(msgBytes, start, len));
+					long sentTime = System.nanoTime();
+					System.out.println("Sent message to server at"+ sentTime);
+					while(this.clt != null){
+						int i = this.clt.getInputStream().read();
+						if(i <=0 ){
+							continue;
+						} 
+						System.out.println("Received ACK from server: in"+ (System.nanoTime() - sentTime));
+						break;
+					}
+				}
+				// System.arraycopy(lengthPrefixBytes, 0, finalMsg, 0, lengthPrefixBytes.length);
+				// System.arraycopy(msgBytes, 0, finalMsg, lengthPrefixBytes.length, msgBytes.length);
 			} catch (Exception e) {
 		e.printStackTrace();
 	    }

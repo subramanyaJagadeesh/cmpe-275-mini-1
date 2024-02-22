@@ -9,12 +9,19 @@ public class Message {
 		this.text = text;
 	}
 
+	public Message(String text){
+		this.text = text;
+	}
+
 	@Override
 	public String toString() {
 		var sb = new StringBuilder();
-		sb.append("from ").append(name);
-		sb.append(", to group: ").append(group);
-		sb.append(", text: ").append(text);
+		if(name !=null && name.length() !=0)
+			sb.append("from ").append(name);
+		if(group != null && group.length() !=0)
+			sb.append(", to group: ").append(group);
+		if(text != null && text.length() !=0)
+			sb.append(", text: ").append(text);
 
 		return sb.toString();
 	}

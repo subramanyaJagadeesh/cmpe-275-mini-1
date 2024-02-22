@@ -33,24 +33,27 @@ public class ClientApp {
 	}
 
 	public static void sendToJava(){
+		String payload = gen();
 		var javaClient = new BasicClient("app", "127.0.0.1", 3000);
 		javaClient.connect();
 		javaClient.join("pets/dogs");
-		javaClient.sendMessage(gen());
+		javaClient.sendMessage(payload);
 	}
 
 	public static void sendToCPP(){
+		String payload = gen();
 		var cppClient = new BasicClient("app", "127.0.0.1", 2000);
 		cppClient.connect();
 		cppClient.join("pets/dogs");
-		cppClient.sendMessage("My name is inigo montoya");
+		cppClient.sendMessage(payload);
 	}
 
 	public static void sendToPython(){
+		String payload = gen();
 		var pythonClient = new BasicClient("app", "127.0.0.1", 4000);
 		pythonClient.connect();
 		pythonClient.join("pets/dogs");
-		pythonClient.sendMessage("My name is inigo montoya");
+		pythonClient.sendMessage(payload);
 	}
 
 	public static void main(String[] args) {

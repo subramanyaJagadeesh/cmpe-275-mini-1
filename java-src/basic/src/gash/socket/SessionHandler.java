@@ -57,22 +57,23 @@ class SessionHandler extends Thread {
 			if (in == null)
 				throw new RuntimeException("Unable to get input streams");
 
-			byte[] raw = new byte[2048];
+			byte[] raw = new byte[10000];
 			BasicBuilder builder = new BasicBuilder();
 			while (forever) {
 				try {
 					int len = in.read(raw);
 					if (len == 0)
 						continue;
-					else if (len == -1)
+					else if (len == -1){
 						break;
-
+					}
 					Message msg = builder.decode(new String(raw, 0, len).getBytes());
 					System.out.println(msg);
 
 					out.write(new byte[] {'A','C','K'});
 					out.flush();
 				} catch (InterruptedIOException ioe) {
+					ioe.printStackTrace();
 				}
 			}
 		} catch (Exception e) {

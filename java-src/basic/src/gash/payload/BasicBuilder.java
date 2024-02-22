@@ -22,8 +22,11 @@ public class BasicBuilder {
 	public Message decode(byte[] raw) throws Exception {
 		if (raw == null || raw.length == 0)
 			return null;
-
 		var s = new String(raw);
+		if(s.split(",").length == 1){
+			return new Message(s);
+		}
+
 		var parts = s.split(",", 3);
 		var rtn = new Message(parts[1], parts[0], parts[2]);
 
