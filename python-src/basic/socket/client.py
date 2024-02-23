@@ -53,6 +53,7 @@ class BasicClient(object):
         if len(text) == 0:
             print("Message is empty")
 
+       #(total_chars * num_iterations * 2) / ((end - start) / 1_000_000_000.0);
         #diveide message into chunks to server
         elif len(text) >= 10000:
             chunk_start_index = 0
@@ -61,13 +62,15 @@ class BasicClient(object):
             chunk_end_index = split_chunck_by_ten
             elapsed_times_list = []
             #print("text1234: ",len(text))
+            #total = (total_chars * num_iterations * 2) / ((end - start) / 1_000_000_000.0);
+            start_time = time.time_ns()
             while(chunk_end_index <= len(text)):
                 print(f"sending to group {self.group} from {self.name}")
                 bldr = builder.BasicBuilder()
                 m = bldr.encode(self.name,self.group,text[chunk_start_index:chunk_end_index])
                 #start timer
                 #start_time = time.time_ns()
-                start_time = time.time()
+                #start_time = time.time_ns()
                 print("Message sent to server")
                 #send message to server
                 self._clt.send(bytes(m, "utf-8"))
@@ -76,10 +79,10 @@ class BasicClient(object):
                 print(from_server)
                 #end timer and print result
                 #end_time = time.time_ns()
-                end_time = time.time()
-                elapsed_time = end_time - start_time
-                print("Elapsed time:",elapsed_time)
-                elapsed_times_list.append(elapsed_time)
+                #end_time = time.time()
+                #elapsed_time = end_time - start_time
+                #print("Elapsed time:",elapsed_time)
+                #elapsed_times_list.append(elapsed_time)
                 chunk_end_index += split_chunck_by_ten
                 chunk_start_index += split_chunck_by_ten
             if chunk_start_index < len(text):
@@ -88,7 +91,7 @@ class BasicClient(object):
                 m = bldr.encode(self.name,self.group,text[chunk_start_index:chunk_end_index])
                 #start timer
                 #start_time = time.time_ns()
-                start_time = time.time()
+                #start_time = time.time()
                 print("Message sent to server")
                 #send message to server
                 self._clt.send(bytes(m, "utf-8"))
@@ -97,13 +100,19 @@ class BasicClient(object):
                 print(from_server)
                 #end timer and print result
                 #end_time = time.time_ns()
-                end_time = time.time()
-                elapsed_time = end_time - start_time
+                end_time = time.time_ns()
+                #elapsed_time = end_time - start_time
                 print("Elapsed time:",elapsed_time)
-                elapsed_times_list.append(elapsed_time)
-                return elapsed_times_list
+                total = (len(text) * 10 * 2) / ((end_time - start_time) / 1_000_000_000.0);
+                #elapsed_times_list.append(elapsed_time)
+                #return elapsed_times_list, total
+                return total
             else:
-                return elapsed_times_list
+                total=0
+                end_time = time.time_ns()
+                total = (len(text) * 10 * 2) / ((end_time - start_time) / 1_000_000_000.0);
+                #return elapsed_times_list,total
+                return total
         else:
             elapsed_times_list = []
             print("text: ",len(text))
@@ -112,7 +121,7 @@ class BasicClient(object):
             m = bldr.encode(self.name,self.group,text)
             #start timer
             #start_time = time.time_ns()
-            start_time = time.time()
+            start_time = time.time_ns()
             print("Message sent to server")
             #send message to server
             self._clt.send(bytes(m, "utf-8"))
@@ -121,11 +130,14 @@ class BasicClient(object):
             print(from_server)
             #end timer and print result
             #end_time = time.time_ns()
-            end_time = time.time()
+            end_time = time.time_ns()
             elapsed_time = end_time - start_time
             print("Elapsed time:",elapsed_time)
-            elapsed_times_list.append(elapsed_time)
-            return elapsed_times_list
+            total = (len(text) * 1 * 2) / ((end_time - start_time) / 1_000_000_000.0);
+            #print("Elapsed time:",elapsed_time)
+            #elapsed_times_list.append(elapsed_time)
+            #return elapsed_times_list, total
+            return total
 
     def groups(self):
         # return list of groups
@@ -137,43 +149,45 @@ class BasicClient(object):
 
 def sendToJava(m):
     total =0
+    a1=0
     pythonClient = BasicClient("python","127.0.0.1",3000)
-    my_list = pythonClient.sendMsg(m)
-    total = sum(my_list)
+    a1 = pythonClient.sendMsg(m)
+    #total = sum(my_list)
+    print(a1)
     return total
 
 def sendToCpp(m):
     total =0
     pythonClient = BasicClient("python","127.0.0.1",2000)
-    my_list = pythonClient.sendMsg(m)
-    total = sum(my_list)
+    my_list,a1 = pythonClient.sendMsg(m)
+    #total = sum(my_list)
     return total
 
 def sendToPython(m):
     total =0
     pythonClient = BasicClient("python","127.0.0.1",4000)
-    my_list = pythonClient.sendMsg(m)
-    total = sum(my_list)
+    a1 = pythonClient.sendMsg(m)
+    print(a1)
+    #total = sum(my_list)
     return total
 
 if __name__ == '__main__':
     with open(json_file_path, 'r') as json_file:
         data = json.load(json_file)
     
-    m7 = data['message7']#10
     m1 = data['message1']#100
-    #m2 = data['message2']#500
+    m10 = data['message10']#1 000
     m3 = data['message3']#10 000
     m4 = data['message4']#100 000
     m5 = data['message5']#1 000 000
     m8 = "hi"
-    print("message7 length: ", len(m7),m7)
-    print("message1 length: ", len(m1))
+    
+    #print("message7 length: ", len(m7),m7)
+    #print("message1 length: ", len(m1))
     #print("message2 length: ", len(m2))
     print("message3 length: ", len(m3))
     print("message4 length: ", len(m4))
     print("message5 length: ", len(m5))
-
 
 #connect to servers
 #try:
@@ -189,10 +203,10 @@ test_counter = 1
 total_time =[]
 try:
     for i in range(test_counter):
-        total_time.append(sendToPython(m4))
+        total_time.append(sendToPython(m5))
     print(total_time)
-    print("Average time in s", (sum(total_time)/len(total_time)))
-    print("Average bytes/s", (sum(total_time)/(len(m4)*test_counter)))
+    #print("Average time in s", (sum(total_time)/len(total_time)))
+    print("Average bytes/s", (sum(total_time)/(len(m3)*test_counter)))
     #print("Average time in ns", (sum(total_time)/len(total_time)))
     #print("Average bytes/ns", (sum(total_time)/(len(m4)*test_counter)))
 except:
@@ -203,10 +217,10 @@ test_counter1 = 1
 total_time1 =[]
 try:
     for i1 in range(test_counter1):
-        total_time1.append(sendToJava(m4))
+        total_time1.append(sendToJava(m5))
     print(total_time1)
-    print("Average time in s", (sum(total_time1)/len(total_time1)))
-    print("Average bytes/s", (sum(total_time1)/(len(m4)*test_counter1)))
+    #print("Average time in s", (sum(total_time1)/len(total_time1)))
+    print("Average bytes/s", (sum(total_time1)/(len(m3)*test_counter1)))
     #print("Average time in ns", (sum(total_time)/len(total_time)))
     #print("Average bytes/ns", (sum(total_time)/(len(m4)*test_counter)))
 except:
@@ -219,12 +233,12 @@ try:
     for i2 in range(test_counter2):
         total_time2.append(sendToCpp(m4))
     print(total_time2)
-    print("Average time in s", (sum(total_time2)/len(total_time2)))
+    #print("Average time in s", (sum(total_time2)/len(total_time2)))
     print("Average bytes/s", (sum(total_time2)/(len(m4)*test_counter2)))
     #print("Average time in ns", (sum(total_time)/len(total_time)))
     #print("Average bytes/ns", (sum(total_time)/(len(m4)*test_counter)))
 except:
-    print("error: Could not connect to Java server")
+    print("error: Could not connect to Cpp server")
     
     #Server for port 3000
     #javaClient = BasicClient()
