@@ -68,7 +68,7 @@
 
          // This is a hook for adaptive polling strategies. You can
          // experiment with priorization and fairness algorithms.
-         optimizeAndWait(idle);
+         // optimizeAndWait(idle);
       }
    }
 
@@ -77,7 +77,7 @@
    */
    bool basic::SessionHandler::cycle() {
       bool idle = true;
-      char raw[2048] = {0};
+      char raw[100000] = {0};
       for (auto& session : this->sessions ) {
          if (session.fd == -1) continue;
 
@@ -93,40 +93,18 @@
          */
 
          // reusable buffer to minimize memory fragmentation
-         std::memset(raw,0,2048);
+         std::memset(raw,0,100000);
 
          //auto n = ::recv(session.fd,raw,Session::sOFSize-1,0);
-         auto n = ::read(session.fd,raw,2047);
+         auto n = ::read(session.fd,raw,1000);
 
          if ( sDebug > 0 && n > 0 ) {
             std::cerr << "---> session " << session.fd << " got n = " 
                         << n << ", errno = " << errno << std::endl;
          }
-         
-         if (n > 0) {
-            idle = false;
-            auto results = splitter(session,raw,n);
-            session.incr(results.size());
-            process(results, session.fd);
-            results.clear();
-         } else if (n == -1) {
-            if (errno == EWOULDBLOCK) {} /*read timeout - okay*/
-            else if (errno == ECONNRESET) {
-               std::cerr << "--> a session was closed, [id: " 
-                           << session.fd << ", cnt: " << session.count 
-                           << "]" << std::endl;
-               
-               // ref: https://en.wikipedia.org/wiki/Erase–remove_idiom
-               auto xfd = session.fd;
-               this->sessions.erase(std::remove_if(this->sessions.begin(), 
-                                    this->sessions.end(), [&xfd](const Session& s) {
-                                       return s.fd == xfd;}),this->sessions.end());
-               idle = false;
-               break;
-            }
-         } else {
-            // no data
-         } 
+         const char* ackMsg = "ACK";
+         send(session.fd, ackMsg, strlen(ackMsg), 0);
+         std::cout << raw;
       }
 
       return idle;
@@ -186,29 +164,29 @@
       std::vector<std::string> results;
       if (raw == NULL || len <= 0) return results;
       
-#ifdef CPLUSPLUSONLY
-      const char* ptr = raw;
-      while (*ptr) {   
-         // uses the fact that C/C++ strings terminate with a null (\0) and
-         // std::string copies up to the '\0'. We copy and move the pointer
-         // past the embedded null to the next substring until the end of raw.
-         results.push_back(ptr);
-         ptr += results.back().length() + 1;
-      }
-#else
-      // sometimes raw may contain null (\0) chars embedded between messages 
-      // and trailing. YET, YET, not always therefore, we must parse using 
-      // the header and check it against the length of raw.
-     
-      if (sDebug > 2) {
-         std::cerr << "----------------------------------------------" << std::endl;
-         std::cerr << "---> raw: " << raw << std::endl;
+      #ifdef CPLUSPLUSONLY
+            const char* ptr = raw;
+            while (*ptr) {   
+               // uses the fact that C/C++ strings terminate with a null (\0) and
+               // std::string copies up to the '\0'. We copy and move the pointer
+               // past the embedded null to the next substring until the end of raw.
+               results.push_back(ptr);
+               ptr += results.back().length() + 1;
+            }
+      #else
+            // sometimes raw may contain null (\0) chars embedded between messages 
+            // and trailing. YET, YET, not always therefore, we must parse using 
+            // the header and check it against the length of raw.
          
-         // for (auto i = 0;i<len;i++){
-         //    std::cerr << "          " << i << ") '" << raw[i] 
-         //              << "'" << std::endl;
-         // }
-      }
+            if (sDebug > 2) {
+               std::cerr << "----------------------------------------------" << std::endl;
+               std::cerr << "---> raw: " << raw << std::endl;
+               
+               // for (auto i = 0;i<len;i++){
+               //    std::cerr << "          " << i << ") '" << raw[i] 
+               //              << "'" << std::endl;
+               // }
+            }
 
       auto pos = 0;
       auto *ptr = &raw[0];

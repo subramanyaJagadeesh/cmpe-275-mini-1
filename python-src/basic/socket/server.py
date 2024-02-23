@@ -116,19 +116,5 @@ def cppServer():
     server.run()
 
 if __name__ == '__main__':
-    ##javaServer()
     pythonServer()
-    ##cppServer()
-    
-    ##Java Server
-    #javaServer = BasicServer()
-    #javaServer.run()
-
-    ##Cpp Server
-    ##cppServer = BasicServer()
-    ##cppServer.run()
-    
-    ##Python server
-    ##pythonServer = BasicServer()
-    ##pythonServer.run()
 

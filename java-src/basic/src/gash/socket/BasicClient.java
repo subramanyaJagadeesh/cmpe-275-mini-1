@@ -69,22 +69,6 @@ public class BasicClient {
 		}
 	}
 
-	/*public void sendMessage(String message) {
-		if (this.clt == null) {
-			System.out.println("no connection, text not sent");
-			return;
-		}
-
-		try {
-			BasicBuilder builder = new BasicBuilder();
-			byte[] msg = builder.encode(new Message(name, group, message)).getBytes();
-			this.clt.getOutputStream().write(msg);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}*/
-	// Modification to run for Server.cpp:
-
 	public void sendMessage(String message, int size) {
 	    if (this.clt == null) {
 				System.out.println("no connection, text not sent");
@@ -98,6 +82,7 @@ public class BasicClient {
 				int start = 0;
 				int end = size;
 				int len = msgBytes.length;
+				//chunking logic
 				while(end <= len && size!=message.length()){
 					this.clt.getOutputStream().write(Arrays.copyOfRange(msgBytes, start, end));
 					long sentTime = System.nanoTime();
@@ -126,8 +111,6 @@ public class BasicClient {
 						break;
 					}
 				}
-				// System.arraycopy(lengthPrefixBytes, 0, finalMsg, 0, lengthPrefixBytes.length);
-				// System.arraycopy(msgBytes, 0, finalMsg, lengthPrefixBytes.length, msgBytes.length);
 			} catch (Exception e) {
 		e.printStackTrace();
 	    }

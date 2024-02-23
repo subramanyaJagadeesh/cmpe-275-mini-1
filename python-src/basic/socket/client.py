@@ -64,6 +64,7 @@ class BasicClient(object):
             #print("text1234: ",len(text))
             #total = (total_chars * num_iterations * 2) / ((end - start) / 1_000_000_000.0);
             start_time = time.time_ns()
+            #Chunking logic
             while(chunk_end_index <= len(text)):
                 print(f"sending to group {self.group} from {self.name}")
                 bldr = builder.BasicBuilder()
@@ -103,14 +104,16 @@ class BasicClient(object):
                 end_time = time.time_ns()
                 #elapsed_time = end_time - start_time
                 print("Elapsed time:",elapsed_time)
-                total = (len(text) * 10 * 2) / ((end_time - start_time) / 1_000_000_000.0);
+                #total = (total_chars * num_iterations * char in bytes) / ((end - start) / 1_000_000_000.0);
+                total = (len(text) * 1 * 2) / ((end_time - start_time) / 1_000_000_000.0)
                 #elapsed_times_list.append(elapsed_time)
                 #return elapsed_times_list, total
                 return total
             else:
                 total=0
                 end_time = time.time_ns()
-                total = (len(text) * 10 * 2) / ((end_time - start_time) / 1_000_000_000.0);
+                #total = (total_chars * num_iterations * char in bytes) / ((end - start) / 1_000_000_000.0);
+                total = (len(text) * 1 * 2) / ((end_time - start_time) / 1_000_000_000.0)
                 #return elapsed_times_list,total
                 return total
         else:
@@ -133,7 +136,8 @@ class BasicClient(object):
             end_time = time.time_ns()
             elapsed_time = end_time - start_time
             print("Elapsed time:",elapsed_time)
-            total = (len(text) * 1 * 2) / ((end_time - start_time) / 1_000_000_000.0);
+            #total = (total_chars * num_iterations * char in bytes) / ((end - start) / 1_000_000_000.0);
+            total = (len(text) * 1 * 2) / ((end_time - start_time) / 1_000_000_000.0)
             #print("Elapsed time:",elapsed_time)
             #elapsed_times_list.append(elapsed_time)
             #return elapsed_times_list, total
@@ -181,34 +185,15 @@ if __name__ == '__main__':
     m4 = data['message4']#100 000
     m5 = data['message5']#1 000 000
     m8 = "hi"
-    
-    #print("message7 length: ", len(m7),m7)
-    #print("message1 length: ", len(m1))
-    #print("message2 length: ", len(m2))
-    print("message3 length: ", len(m3))
-    print("message4 length: ", len(m4))
-    print("message5 length: ", len(m5))
 
-#connect to servers
-#try:
- #   sendToJava(message)
-#except:
-#    print("error: Could not connect to java server")
-#try:
-#    sendToCpp(message)
-#except:
-#    print("error: Could not connect to cpp server")
+
 i =0
 test_counter = 1
 total_time =[]
 try:
     for i in range(test_counter):
-        total_time.append(sendToPython(m5))
+        total_time.append(sendToPython(m10))
     print(total_time)
-    #print("Average time in s", (sum(total_time)/len(total_time)))
-    print("Average bytes/s", (sum(total_time)/(len(m3)*test_counter)))
-    #print("Average time in ns", (sum(total_time)/len(total_time)))
-    #print("Average bytes/ns", (sum(total_time)/(len(m4)*test_counter)))
 except:
     print("error: Could not connect to python server")
 
@@ -217,12 +202,9 @@ test_counter1 = 1
 total_time1 =[]
 try:
     for i1 in range(test_counter1):
-        total_time1.append(sendToJava(m5))
+        total_time1.append(sendToJava(m10))
     print(total_time1)
-    #print("Average time in s", (sum(total_time1)/len(total_time1)))
     print("Average bytes/s", (sum(total_time1)/(len(m3)*test_counter1)))
-    #print("Average time in ns", (sum(total_time)/len(total_time)))
-    #print("Average bytes/ns", (sum(total_time)/(len(m4)*test_counter)))
 except:
     print("error: Could not connect to Java server")
 
@@ -233,23 +215,8 @@ try:
     for i2 in range(test_counter2):
         total_time2.append(sendToCpp(m4))
     print(total_time2)
-    #print("Average time in s", (sum(total_time2)/len(total_time2)))
-    print("Average bytes/s", (sum(total_time2)/(len(m4)*test_counter2)))
-    #print("Average time in ns", (sum(total_time)/len(total_time)))
-    #print("Average bytes/ns", (sum(total_time)/(len(m4)*test_counter)))
 except:
     print("error: Could not connect to Cpp server")
-    
-    #Server for port 3000
-    #javaClient = BasicClient()
-    #javaClient.sendToJava()
-    
-    #Server for port 2000
-    #cppClient = BasicClient()
-    #cppClient.sendToCpp(message)
-    
-    #Server for port 4000
-    #pythonClient = BasicClient()
-    #pythonClient.sendToPython(message)
+
     
  

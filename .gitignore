@@ -1,3 +1,6 @@
 cpp-src/basic/b?
-
+cpp-src/.vscode/
+cpp-src/basic/.vscode
+.vscode/
+.DS_Store
 java-src/basic/classes/

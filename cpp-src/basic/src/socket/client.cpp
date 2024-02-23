@@ -56,12 +56,12 @@ double basic::BasicClient::readACK(std::chrono::steady_clock::time_point sentTim
     if (!this->good) return -1.0; // Return -1 if not connected
 
     while(this->good) {
-        char buffer[80] = {0};
+        char buffer[100] = {0};
         auto m = ::read(this->clt, buffer, 80); 
 
         if(m == -1) {
             // Handle read error
-            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            // std::this_thread::sleep_for(std::chrono::milliseconds(100));
             continue;
         } else if(errno == ETIMEDOUT) {
             // Handle timeout
@@ -78,41 +78,50 @@ double basic::BasicClient::readACK(std::chrono::steady_clock::time_point sentTim
 }
 
 
-//Measure Throughput
-void basic::BasicClient::measureThroughput(int numMessages) {
-    std::vector<double> rtts; // To store round-trip times for each message
-    auto start = std::chrono::steady_clock::now();
-    
-    for (int i = 0; i < numMessages; ++i) {
-        auto sentTime = std::chrono::steady_clock::now();
-        sendMessage("OUR MESSAGE!!"); //Whatever Message planning to send
-        double rtt = readACK(sentTime);
-        if (rtt >= 0) { // Ensure RTT was successfully measured
-            rtts.push_back(rtt);
-        }
-    }
-    
-    auto end =std::chrono::steady_clock::now();
-    std::chrono::duration<double> elapsed = end - start;
-    double throughput = numMessages / elapsed.count(); // Calculate messages per second
-    
-    // Optionally, calculate average RTT, display throughput and RTT statistics
-    double totalRtt = std::accumulate(rtts.begin(), rtts.end(), 0.0);
-    double averageRtt = rtts.empty() ? 0 : totalRtt / rtts.size();
-    
-    std::cout << "Throughput: " << throughput << " messages/second" << std::endl;
-    std::cout << "Average RTT: " << averageRtt << " milliseconds" << std::endl;
-}
+
 
 
 
 void basic::BasicClient::sendMessage(std::string m) {
+   
    if (!this->good) return;
-
+   
+   /*// Check if the message exceeds the maximum allowed size
+   if (m.size() > MAX_MESSAGE_SIZE) {
+      std::cerr << "Message exceeds the maximum allowed size of " << MAX_MESSAGE_SIZE << " characters." << std::endl;
+      // Handle the error (e.g., truncate, throw exception, or return)
+      return; // Example: return without sending
+   }*/
+   
    basic::Message msg(this->name,this->group,m);
    basic::BasicBuilder bldr;
    auto payload = bldr.encode(msg); 
-   auto plen = payload.length();
+   auto plen = payload.length(); 
+
+   /*const size_t CHUNK_SIZE =MAX_MESSAGE_SIZE/10 ;
+    size_t bytes_sent = 0;
+    size_t message_len = m.size();
+
+    while (bytes_sent < plen) {
+        // Calculate the size of the next chunk
+        size_t chunk_size = std::min(CHUNK_SIZE, plen - bytes_sent);
+        
+        ssize_t n = ::write(this->clt, payload.data() + bytes_sent, chunk_size);
+        
+        if (n < 0) {
+            std::cerr << "--> send() error, errno = " << errno << std::endl;
+            break; 
+        }
+
+        bytes_sent += n; // Update the total number of bytes sent
+
+
+        // If all bytes were sent, we're done
+        if (bytes_sent >= plen) {
+            std::cerr << "Complete message sent, size: " << bytes_sent << " bytes" << std::endl;
+            break;
+        }
+    }*/
 
    while (this->good) {
       auto n = ::write(this->clt, payload.c_str(), plen);
@@ -129,7 +138,7 @@ void basic::BasicClient::sendMessage(std::string m) {
          err << "failed to fully send(), err = " << errno << std::endl;
          throw std::runtime_error(err.str());
       } else 
-         std::cerr << "sent: " << payload << ", size: " << plen << ", errno: " << errno << std::endl;
+         // std::cerr << "sent: " << payload << ", size: " << plen << ", errno: " << errno << std::endl;
    
       break;
    }
